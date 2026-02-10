@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💘</title>
+
+<style>
+* {
+    font-family: 'Comic Sans MS', cursive;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: #fff6eb;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animated hearts */
+.heart {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.container {
+    background: #fffdf8;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 2;
+}
+
+img {
+    width: 200px;
+}
+
+h1 {
+    color: #5a2e1a;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#yesBtn {
+    background: #ff4d6d;
+    color: white;
+}
+
+#noBtn {
+    background: black;
+    color: white;
+    position: absolute;
+    animation: shake 0.3s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+}
+
+video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="Kelvin Momo - Say I Do.mp3" loop></audio>
+
+<video id="minionsVideo" autoplay loop muted>
+    <source src="yay-minions.mp4" type="video/mp4">
+</video>
+
+<div class="container" id="app">
+    <img id="img" src="Happy minion.jpg">
+    <h1 id="text">Will you be my valentines?</h1>
+
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😐</button>
+</div>
+
+<script>
+const name = "Elan";
+let stage = 0;
+
+const yes = document.getElementById("yesBtn");
+const no = document.getElementById("noBtn");
+const text = document.getElementById("text");
+const img = document.getElementById("img");
+const music = document.getElementById("music");
+const video = document.getElementById("minionsVideo");
+
+function spawnHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+setInterval(spawnHeart, 300);
+
+function moveNo() {
+    no.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    no.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    no.innerHTML = ["NAH 😡","STOP 😤","TF?? 😠","NOOOOOOOOOOOOOOOOOOO 😭"][Math.floor(Math.random()*4)];
+}
+no.addEventListener("mouseover", moveNo);
+
+yes.onclick = () => {
+    music.play();
+
+    if (stage === 0) {
+        video.style.display = "block";
+        img.src = "Freaky joker.jpg";
+        text.innerHTML = `I love you ${name} ❤️`;
+        yes.style.display = "none";
+        no.style.display = "none";
+    } 
+    else if (stage === 1) {
+        stage = 2;
+        text.innerHTML = "Are you sure sure sure sure sure sure?";
+    } 
+    else {
+        text.innerHTML = "You thought you had a choice?? 😭 You are my valentines and I love you ❤️ (even though you are confused)";
+        yes.style.display = "none";
+        no.style.display = "none";
+    }
+};
+
+no.onclick = () => {
+    if (stage === 0) {
+        stage = 1;
+        text.innerHTML = "Are you sure?";
+    } else {
+        location.reload();
+    }
+};
+</script>
+
+</body>
+</html>
